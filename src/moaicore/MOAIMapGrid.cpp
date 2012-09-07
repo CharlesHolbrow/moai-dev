@@ -11,8 +11,8 @@
 //================================================================//
 
 //----------------------------------------------------------------//
-/**	@name	clearTileFlags
-	@text	Clears bits specified in mask.
+/**	@name	fieldOfView
+	@text	Calculate the field of view from a grid position
 
 	@in		MOAIMapGrid self
 	@in		number xTile
@@ -20,223 +20,28 @@
 	@in		number mask
 	@out	nil
 */
-int MOAIMapGrid::_clearTileFlags ( lua_State* L ) {
+int MOAIMapGrid::_fieldOfView ( lua_State* L ) {
 	MOAI_LUA_SETUP ( MOAIMapGrid, "UNNN" )
 
 	int xTile	= state.GetValue < int >( 2, 1 ) - 1;
 	int yTile	= state.GetValue < int >( 3, 1 ) - 1;
-	u32 mask	= state.GetValue < u32 >( 4, 0 );
+	int radius	= state.GetValue < int >( 4, 1 );
 	
-	u32 tile = self->GetTile ( xTile, yTile );
-	
-	tile = tile & ~mask;
-	
-	self->SetTile ( xTile, yTile, tile );
+	self->FieldOfView ( xTile, yTile, radius );
 	
 	return 0;
 }
 
 //----------------------------------------------------------------//
-/**	@name	fill
-	@text	Set all tiles to a single value
+void MOAIMapGrid::GetAngles ( int xTile, int yTile, float & a2, float & a3 ) {
 
-	@in		MOAIMapGrid self
-	@in		number value
-	@out	nil
-*/
-int MOAIMapGrid::_fill ( lua_State* L ) {
-	MOAI_LUA_SETUP ( MOAIMapGrid, "UN" )
+	float increment = 1.0 / ( ( yTile + 1.0 ) * 2.0 );
 
-	u32 value	= state.GetValue < u32 >( 2, 1 );
+	a2 = ( ( xTile * 2 ) + 1 ) * increment;
+	a3 = ( ( xTile + 1 ) * 2 ) * increment;
 	
-	self->Fill ( value );
-	
-	return 0;
-}
-
-//----------------------------------------------------------------//
-/**	@name	getTile
-	@text	Returns the value of a given tile.
-
-	@in		MOAIMapGrid self
-	@in		number xTile
-	@in		number yTile
-	@out	number tile
-*/
-int MOAIMapGrid::_getTile ( lua_State* L ) {
-	MOAI_LUA_SETUP ( MOAIMapGrid, "UNN" )
-
-	int xTile	= state.GetValue < int >( 2, 1 ) - 1;
-	int yTile	= state.GetValue < int >( 3, 1 ) - 1;
-	
-	u32 tile = self->GetTile ( xTile, yTile );
-	state.Push ( tile );
-	return 1;
-}
-
-//----------------------------------------------------------------//
-/**	@name	getTileFlags
-	@text	Returns the masked value of a given tile.
-
-	@in		MOAIMapGrid self
-	@in		number xTile
-	@in		number yTile
-	@in		number mask
-	@out	number tile
-*/
-int MOAIMapGrid::_getTileFlags ( lua_State* L ) {
-	MOAI_LUA_SETUP ( MOAIMapGrid, "UNNN" )
-
-	int xTile	= state.GetValue < int >( 2, 1 ) - 1;
-	int yTile	= state.GetValue < int >( 3, 1 ) - 1;
-	u32 mask	= state.GetValue < u32 >( 4, 0 );
-	
-	u32 tile = self->GetTile ( xTile, yTile );
-	
-	tile = tile & mask;
-	
-	lua_pushnumber ( state, tile );
-	
-	return 1;
-}
-
-//----------------------------------------------------------------//
-/**	@name	setRow
-	@text	Initializes a grid row given a variable argument list of values.
-
-	@in		MOAIMapGrid self
-	@in		number row
-	@in		...
-	@out	nil
-*/
-int MOAIMapGrid::_setRow ( lua_State* L ) {
-	MOAI_LUA_SETUP ( MOAIMapGrid, "UN" )
-
-	u32 row = state.GetValue < u32 >( 2, 1 ) - 1;
-	u32 total = lua_gettop ( state ) - 2;
-	
-	for ( u32 i = 0; i < total; ++i ) {
-	
-		u32 tile = state.GetValue < u32 >( 3 + i, 0 );
-		self->SetTile ( i, row, tile );
-	}
-	
-	return 0;
-}
-
-//----------------------------------------------------------------//
-/**	@name	setTile
-	@text	Sets the value of a given tile
-
-	@in		MOAIMapGrid self
-	@in		number xTile
-	@in		number yTile
-	@in		number value
-	@out	nil
-*/
-int MOAIMapGrid::_setTile ( lua_State* L ) {
-	MOAI_LUA_SETUP ( MOAIMapGrid, "UNNN" )
-
-	int xTile	= state.GetValue < int >( 2, 1 ) - 1;
-	int yTile	= state.GetValue < int >( 3, 1 ) - 1;
-	u32 tile	= state.GetValue < u32 >( 4, 0 );
-	
-	self->SetTile ( xTile, yTile, tile );
-	
-	return 0;
-}
-
-//----------------------------------------------------------------//
-/**	@name	setTileFlags
-	@text	Sets a tile's flags given a mask.
-
-	@in		MOAIMapGrid self
-	@in		number xTile
-	@in		number yTile
-	@in		number mask
-	@out	nil
-*/
-int MOAIMapGrid::_setTileFlags ( lua_State* L ) {
-	MOAI_LUA_SETUP ( MOAIMapGrid, "UNNN" )
-
-	int xTile	= state.GetValue < int >( 2, 1 ) - 1;
-	int yTile	= state.GetValue < int >( 3, 1 ) - 1;
-	u32 mask	= state.GetValue < u32 >( 4, 0 );
-	
-	u32 tile = self->GetTile ( xTile, yTile );
-	
-	tile = tile | mask;
-	
-	self->SetTile ( xTile, yTile, tile );
-	
-	return 0;
-}
-
-//----------------------------------------------------------------//
-/**	@name	streamTilesIn
-	@text	Reads tiles directly from a stream. Call this only after
-			initializing the grid. Only the content of the tiles
-			buffer is read.
-
-	@in		MOAIMapGrid self
-	@in		MOAIStream stream
-	@out	number bytesRead
-*/
-int MOAIMapGrid::_streamTilesIn ( lua_State* L ) {
-	MOAI_LUA_SETUP ( MOAIMapGrid, "UU" )
-	
-	MOAIStream* stream = state.GetLuaObject < MOAIStream >( 2, true );
-	if ( stream ) {
-		state.Push ( self->StreamTilesIn ( stream->GetUSStream ()));
-		return 1;
-	}
-	return 0;
-}
-
-//----------------------------------------------------------------//
-/**	@name	streamTilesOut
-	@text	Writes tiles directly to a stream. Only the content of
-			the tiles buffer is written.
-
-	@in		MOAIMapGrid self
-	@in		MOAIStream stream
-	@out	number bytesWritten
-*/
-int MOAIMapGrid::_streamTilesOut ( lua_State* L ) {
-	MOAI_LUA_SETUP ( MOAIMapGrid, "UU" )
-	
-	MOAIStream* stream = state.GetLuaObject < MOAIStream >( 2, true );
-	if ( stream ) {
-		state.Push ( self->StreamTilesOut ( stream->GetUSStream ()));
-		return 1;
-	}
-	return 0;
-}
-
-//----------------------------------------------------------------//
-/**	@name	toggleTileFlags
-	@text	Toggles a tile's flags given a mask.
-
-	@in		MOAIMapGrid self
-	@in		number xTile
-	@in		number yTile
-	@in		number mask
-	@out	nil
-*/
-int MOAIMapGrid::_toggleTileFlags ( lua_State* L ) {
-	MOAI_LUA_SETUP ( MOAIMapGrid, "UNNN" )
-
-	int xTile	= state.GetValue < int >( 2, 1 ) - 1;
-	int yTile	= state.GetValue < int >( 3, 1 ) - 1;
-	u32 mask	= state.GetValue < u32 >( 4, 0 );
-	
-	u32 tile = self->GetTile ( xTile, yTile );
-	
-	tile = tile ^ mask;
-	
-	self->SetTile ( xTile, yTile, tile );
-	
-	return 0;
+	if (xTile == yTile) a3 = 1.0f;
+	printf ( "Tile (%2i, %2i): %5f %5f\n", xTile, yTile, a2, a3 );
 }
 
 //================================================================//
@@ -244,29 +49,51 @@ int MOAIMapGrid::_toggleTileFlags ( lua_State* L ) {
 //================================================================//
 
 //----------------------------------------------------------------//
-void MOAIMapGrid::Fill ( u32 value ) {
-
-	this->mTiles.Fill ( value );
-	return;
-}
-
-//----------------------------------------------------------------//
-u32 MOAIMapGrid::GetTile ( int xTile, int yTile ) {
+void MOAIMapGrid::FieldOfView ( int xTile, int yTile, int radius ) {
 
 	MOAICellCoord coord ( xTile, yTile );
-	if ( this->IsValidCoord ( coord )) {
-		u32 addr = this->GetCellAddr ( coord );
-		if ( addr < this->mTiles.Size ()) {
-			return this->mTiles [ addr ];
-		}
-	}
-	return 0;
+	if ( !( this->IsValidCoord ( coord ) ) ) return;
+
+	int i = 1;
+
+	// three angles for each tile
+	float a1 = 0;
+	float a2, a3;
+
+	// xy coords of the tile currently inspected
+	int x;
+	int y;
+
+	// row and yPos are the same
+	for ( int yPos = 1; yPos <= radius; yPos++ ) {
+
+		for ( int xPos = 0; xPos <= yPos; xPos++ ) {
+
+			// first calculate the octant
+			// ...
+			// then calculate the offset
+			x = xPos + xTile;
+			y = yPos + yTile;
+
+			SetTile ( x, y, i );
+			GetAngles ( xPos, yPos, a2, a3 );
+
+			i++;
+
+		};
+
+	};
+
 }
 
 //----------------------------------------------------------------//
 MOAIMapGrid::MOAIMapGrid () {
 	
-	RTTI_SINGLE ( MOAIGridSpace )
+//	RTTI_SINGLE ( MOAIGrid )
+	RTTI_BEGIN
+		RTTI_EXTEND ( MOAIGrid )
+		
+	RTTI_END
 
 }
 
@@ -275,124 +102,26 @@ MOAIMapGrid::~MOAIMapGrid () {
 }
 
 //----------------------------------------------------------------//
-void MOAIMapGrid::OnResize () {
-
-	this->mTiles.Init ( this->GetTotalCells ());
-	this->mTiles.Fill ( 0 );
-}
-
-//----------------------------------------------------------------//
 void MOAIMapGrid::RegisterLuaClass ( MOAILuaState& state ) {
 
-	MOAIGridSpace::RegisterLuaClass ( state );
+	state.SetField ( -1, "TILE_OBSTRUCT",			( u32 )TILE_OBSTRUCT );
+	state.SetField ( -1, "TILE_OPAQUE",				( u32 )TILE_OPAQUE );
+	state.SetField ( -1, "TILE_OBSTRUCT_OPAQUE",	( u32 )TILE_OBSTRUCT_OPAQUE );
+
+	MOAIGrid::RegisterLuaClass ( state );
 }
 
 //----------------------------------------------------------------//
 void MOAIMapGrid::RegisterLuaFuncs ( MOAILuaState& state ) {
 
-	MOAIGridSpace::RegisterLuaFuncs ( state );
+	MOAIGrid::RegisterLuaFuncs ( state );
 
 	luaL_Reg regTable [] = {
-		{ "clearTileFlags",		_clearTileFlags },
-		{ "fill",				_fill },
-		{ "getTile",			_getTile },
-		{ "getTileFlags",		_getTileFlags },
-		{ "setRow",				_setRow },
-		{ "setTile",			_setTile },
-		{ "setTileFlags",		_setTileFlags },
-		{ "streamTilesIn",		_streamTilesIn },
-		{ "streamTilesOut",		_streamTilesOut },
-		{ "toggleTileFlags",	_toggleTileFlags },
+
+		{ "fieldOfView",		_fieldOfView },
 		{ NULL, NULL }
 	};
 
 	luaL_register ( state, 0, regTable );
 }
 
-//----------------------------------------------------------------//
-void MOAIMapGrid::SerializeIn ( MOAILuaState& state, MOAIDeserializer& serializer ) {
-	UNUSED ( serializer );
-
-	this->MOAIGridSpace::SerializeIn ( state, serializer );
-	this->mTiles.Init ( this->MOAIGridSpace::GetTotalCells ());
-
-	state.GetField ( -1, "mData" );
-
-	if ( state.IsType ( -1, LUA_TSTRING )) {
-		
-		void* tiles = this->mTiles;
-		size_t tilesSize = this->mTiles.Size () * sizeof ( u32 );
-		
-		STLString base64 = lua_tostring ( state, -1 ); 
-		base64.base_64_decode ( tiles, tilesSize );
-		
-		USLeanArray < u8 > unzip;
-		USZip::Inflate ( this->mTiles, this->mTiles.Size () * sizeof ( u32 ), unzip );
-		
-		tiles = unzip.Data ();
-		if ( unzip.Size () < tilesSize ) {
-			tilesSize = unzip.Size ();
-		}
-		memcpy ( this->mTiles, tiles, tilesSize );
-	}
-	
-	lua_pop ( state, 1 );
-}
-
-//----------------------------------------------------------------//
-void MOAIMapGrid::SerializeOut ( MOAILuaState& state, MOAISerializer& serializer ) {
-	UNUSED ( serializer );
-
-	this->MOAIGridSpace::SerializeOut ( state, serializer );
-
-	USLeanArray < u8 > zip;
-	USZip::Deflate ( this->mTiles, this->mTiles.Size () * sizeof ( u32 ), zip );
-
-	STLString base64;
-	base64.base_64_encode ( zip.Data (), zip.Size ());
-	
-	lua_pushstring ( state, base64.str ());
-	lua_setfield ( state, -2, "mData" );
-}
-
-//----------------------------------------------------------------//
-void MOAIMapGrid::SetTile ( u32 addr, u32 tile ) {
-
-	u32 size = this->mTiles.Size ();
-
-	if ( size ) {
-		addr = addr % this->mTiles.Size ();
-		this->mTiles [ addr ] = tile;
-	}
-}
-
-//----------------------------------------------------------------//
-void MOAIMapGrid::SetTile ( int xTile, int yTile, u32 tile ) {
-
-	MOAICellCoord coord ( xTile, yTile );
-	if ( this->IsValidCoord ( coord )) {
-	
-		u32 addr = this->GetCellAddr ( coord );
-		if ( addr < this->mTiles.Size ()) {
-			this->mTiles [ addr ] = tile;
-		}
-	}
-}
-
-//----------------------------------------------------------------//
-size_t MOAIMapGrid::StreamTilesIn ( USStream* stream ) {
-
-	if ( !stream ) return 0;
-	
-	size_t size = this->mTiles.Size () * sizeof ( u32 );
-	return stream->ReadBytes ( this->mTiles, size );
-}
-
-//----------------------------------------------------------------//
-size_t MOAIMapGrid::StreamTilesOut ( USStream* stream ) {
-
-	if ( !stream ) return 0;
-
-	size_t size = this->mTiles.Size () * sizeof ( u32 );
-	return stream->WriteBytes ( this->mTiles, size );
-}
