@@ -35,55 +35,88 @@ int MOAIMapGrid::_fieldOfView ( lua_State* L ) {
 //----------------------------------------------------------------//
 void MOAIMapGrid::GetAngles ( int xTile, int yTile, float & a2, float & a3 ) {
 
-	float increment = 1.0 / ( ( yTile + 1.0 ) * 2.0 );
+	float increment = 1.0f / ( ( yTile + 1.0f ) * 2.0f );
 
 	a2 = ( ( xTile * 2 ) + 1 ) * increment;
 	a3 = ( ( xTile + 1 ) * 2 ) * increment;
 	
 	if (xTile == yTile) a3 = 1.0f;
-	printf ( "Tile (%2i, %2i): %5f %5f\n", xTile, yTile, a2, a3 );
+
 }
+
+//----------------------------------------------------------------//
+// Octants:
+//   3  0
+// 2      1
+// 5      6
+//   4  7
+void MOAIMapGrid::Octant ( int x, int y, int o, int & xOut, int & yOut) {
+
+	xOut = x * xxcomp [ o ] + y * xycomp [ o ];
+	yOut = x * yxcomp [ o ] + y * yycomp [ o ];
+}
+
+int MOAIMapGrid::xxcomp[] = { 1, 0,  0, -1, -1,  0,  0,  1 };
+int MOAIMapGrid::xycomp[] = { 0, 1, -1,  0,  0, -1,  1,  0 };
+int MOAIMapGrid::yxcomp[] = { 0, 1,  1,  0,  0, -1, -1,  0 };
+int MOAIMapGrid::yycomp[] = { 1, 0,  0,  1, -1,  0,  0, -1 };
 
 //================================================================//
 // MOAIMapGrid
 //================================================================//
 
 //----------------------------------------------------------------//
-void MOAIMapGrid::FieldOfView ( int xTile, int yTile, int radius ) {
+void MOAIMapGrid::FieldOfView ( int xTile, int yTile, int radius, int startOct, int endOct ) {
 
 	MOAICellCoord coord ( xTile, yTile );
 	if ( !( this->IsValidCoord ( coord ) ) ) return;
 
-	int i = 1;
+	// Sanity-check start and end octant
+	if (	( startOct < 0 ) || 
+			( endOct > 7 ) ||
+			( startOct > endOct ) )
+		return;
+
+	// for testing only
+	int i;
 
 	// three angles for each tile
-	float a1 = 0;
-	float a2, a3;
+	float a1, a2, a3 = 0;
 
+	// xy coords without adjusting for octant
+	int x, y;
 	// xy coords of the tile currently inspected
-	int x;
-	int y;
+	int xOct;
+	int yOct;
+
+	i = 1;
 
 	// row and yPos are the same
 	for ( int yPos = 1; yPos <= radius; yPos++ ) {
 
 		for ( int xPos = 0; xPos <= yPos; xPos++ ) {
 
-			// first calculate the octant
-			// ...
-			// then calculate the offset
-			x = xPos + xTile;
-			y = yPos + yTile;
-
-			SetTile ( x, y, i );
+			// Find angles before octant calculation
+			a1 = a3;
 			GetAngles ( xPos, yPos, a2, a3 );
 
-			i++;
+			for ( int oct = startOct; oct <= endOct; ++oct ) {
 
+				// first calculate the octant
+				Octant ( xPos, yPos, oct, xOct, yOct );
+
+				// then calculate the offset
+				x = xOct + xTile;
+				y = yOct + yTile;
+
+				SetTile ( x, y, oct + 1 );
+
+				printf ( "Tile (%2i, %2i): %5f %5f %5f\n", xTile, yTile, a1, a2, a3 );
+				i++;
+
+			};
 		};
-
 	};
-
 }
 
 //----------------------------------------------------------------//

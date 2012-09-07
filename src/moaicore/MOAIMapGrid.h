@@ -18,14 +18,18 @@ class MOAIMapGrid :
 	public MOAIGrid {
 private:
 
-	USLeanArray < u32 > mTiles;
-
 	//----------------------------------------------------------------//
 	static int		_fieldOfView		( lua_State* L );
 
 	//----------------------------------------------------------------//
-	//void			OnResize			();
 	void			GetAngles			( int xTile, int yTile, float & a2, float & a3 );
+	void			Octant				( int x, int y, int o, int & xOut, int & yOut );
+
+	//----------------------------------------------------------------//
+	static int xxcomp[8];
+	static int xycomp[8];
+	static int yxcomp[8];
+	static int yycomp[8];
 
 public:
 	
@@ -34,7 +38,7 @@ public:
 	//----------------------------------------------------------------//
 					MOAIMapGrid			();
 					~MOAIMapGrid		();
-	void			FieldOfView			( int xTile, int yTile, int radius );
+	void			FieldOfView			( int xTile, int yTile, int radius, int startOct = 0, int endOct = 7 );
 
 	void			RegisterLuaClass	( MOAILuaState& state );
 	void			RegisterLuaFuncs	( MOAILuaState& state );
