@@ -251,6 +251,24 @@ void MOAIGrid::Fill ( u32 value ) {
 }
 
 //----------------------------------------------------------------//
+void MOAIGrid::FillPreservingFlags ( u32 value, u32 flags ) {
+
+	u32 * data = this->mTiles.Data ();
+	u32 size = this->mTiles.Size ();
+
+	// could use pointer arithmatic here for better speed
+	for ( u32 i = 0; i < size; ++i ) {
+
+		u32 curVal = data [ i ];
+
+		// If the new value has any flags, they will be included
+		data [ i ] = ( ( flags & curVal ) | value );
+	};
+
+	return;
+}
+
+//----------------------------------------------------------------//
 u32 MOAIGrid::GetTile ( int xTile, int yTile ) {
 
 	MOAICellCoord coord ( xTile, yTile );

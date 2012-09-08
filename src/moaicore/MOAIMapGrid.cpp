@@ -33,6 +33,24 @@ int MOAIMapGrid::_fieldOfView ( lua_State* L ) {
 }
 
 //----------------------------------------------------------------//
+/**	@name	fill
+	@text	Set all tiles 8 bit value, preserving flags
+
+	@in		MOAIGrid self
+	@in		number value
+	@out	nil
+*/
+int MOAIMapGrid::_fillLight ( lua_State* L ) {
+	MOAI_LUA_SETUP ( MOAIMapGrid, "UN" )
+
+	u32 value	= state.GetValue < u32 >( 2, 1 );
+	
+	self->FillLight ( value );
+	
+	return 0;
+}
+
+//----------------------------------------------------------------//
 bool MOAIMapGrid::AngleVisible ( float a, USLeanArray <float> * mins, USLeanArray <float> * maxes, int position ) {
 
 	// iterate from position backwards
@@ -162,6 +180,7 @@ void MOAIMapGrid::FieldOfView ( int xTile, int yTile, int radius, int startOct, 
 					// if the tile is opaque, mark it's angles as obstructed
 					if ( opaque ) {
 
+						//printf ( "Found Opaque tile at %2i, %2i\n", x, y );
 						// check if we can extend the last entry
 						if ( 
 							( totalObstructions > 0 ) && 
@@ -187,7 +206,7 @@ void MOAIMapGrid::FieldOfView ( int xTile, int yTile, int radius, int startOct, 
 						( opaque ) ||
 						( o1 && 02 ) || 
 						( o2 && o3 ) ) {
-						u32 newVal = 1;
+						u32 newVal = 0;
 
 						if ( opaque ) newVal = newVal | TILE_OPAQUE;
 
@@ -200,6 +219,14 @@ void MOAIMapGrid::FieldOfView ( int xTile, int yTile, int radius, int startOct, 
 	};
 }
 
+//----------------------------------------------------------------//
+void MOAIMapGrid::FillLight ( u32 value ) {
+
+	if ( value >= 256 ) 
+		printf ( "WARNING: MOAIMapGrid::FillLight - value > 256 - %i\n", value );
+
+	FillPreservingFlags ( value, ~LIGHT_MASK ) ;
+}
 //----------------------------------------------------------------//
 MOAIMapGrid::MOAIMapGrid () {
 	
@@ -241,6 +268,7 @@ void MOAIMapGrid::RegisterLuaFuncs ( MOAILuaState& state ) {
 	luaL_Reg regTable [] = {
 
 		{ "fieldOfView",		_fieldOfView },
+		{ "fillLight",			_fillLight }, 
 		{ NULL, NULL }
 	};
 

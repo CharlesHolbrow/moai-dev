@@ -16,6 +16,7 @@
 */
 class MOAIGrid :
 	public MOAIGridSpace {
+
 private:
 
 	USLeanArray < u32 > mTiles;
@@ -44,6 +45,7 @@ public:
 					MOAIGrid			();
 					~MOAIGrid			();
 	void			Fill				( u32 value );
+	void			FillPreservingFlags	( u32 value, u32 flags );
 	void			RegisterLuaClass	( MOAILuaState& state );
 	void			RegisterLuaFuncs	( MOAILuaState& state );
 	void			RowFromString		( u32 rowID, cc8* str );

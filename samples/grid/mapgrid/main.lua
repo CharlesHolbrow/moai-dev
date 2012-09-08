@@ -21,14 +21,27 @@ grid:setSize ( 10, 40 )
 grid:fill ( 0 )
 
 
+-- flat line overhead
 grid:setTileFlags ( 6, 23, MOAIMapGrid.TILE_OPAQUE )
 grid:setTileFlags ( 5, 23, MOAIMapGrid.TILE_OPAQUE )
 grid:setTileFlags ( 4, 23, MOAIMapGrid.TILE_OPAQUE )
-grid:setTileFlags ( 3, 20, MOAIMapGrid.TILE_OPAQUE )
+-- Should be obsturcted be the line
+grid:setTileFlags ( 5, 24, MOAIMapGrid.TILE_OPAQUE )
+
+-- parallel, two spaces to the left, and obsructed 4 spaces to left
+grid:setTileFlags ( 7, 20, MOAIMapGrid.TILE_OPAQUE )
 grid:setTileFlags ( 9, 20, MOAIMapGrid.TILE_OPAQUE )
-grid:setTileFlags ( 6, 20, MOAIMapGrid.TILE_OPAQUE )
-grid:setTileFlags ( 6, 19, MOAIMapGrid.TILE_OPAQUE )
-grid:setTileFlags ( 4, 19, MOAIMapGrid.TILE_OPAQUE )
+
+-- Test a Corner
+grid:setTileFlags ( 2, 20, MOAIMapGrid.TILE_OPAQUE )
+grid:setTileFlags ( 2, 21, MOAIMapGrid.TILE_OPAQUE )
+grid:setTileFlags ( 3, 21, MOAIMapGrid.TILE_OPAQUE )
+
+-- Tiles directly below 5, 20
+grid:setTileFlags ( 5, 19, MOAIMapGrid.TILE_OPAQUE )
+grid:setTileFlags ( 5, 18, MOAIMapGrid.TILE_OPAQUE )
+grid:setTileFlags ( 5, 17, MOAIMapGrid.TILE_OPAQUE )
+grid:setTileFlags ( 5, 16, MOAIMapGrid.TILE_OPAQUE )
 
 grid:setTileFlags ( 5, 20, MOAIMapGrid.TILE_OBSTRUCT_OPAQUE )
 pGrid ( grid )

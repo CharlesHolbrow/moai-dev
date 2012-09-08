@@ -20,6 +20,7 @@ private:
 
 	//----------------------------------------------------------------//
 	static int		_fieldOfView		( lua_State* L );
+	static int		_fillLight			( lua_State* L );
 
 	//----------------------------------------------------------------//
 	bool			AngleVisible		( float a, USLeanArray <float> * mins, USLeanArray <float> * maxes, int loc );
@@ -43,6 +44,7 @@ public:
 					~MOAIMapGrid		();
 	void			FieldOfView			( int xTile, int yTile, int radius, int startOct = 0, int endOct = 7 );
 	bool			Opaque				( int xTile, int yTile );
+	void			FillLight			( u32 value );
 
 	void			RegisterLuaClass	( MOAILuaState& state );
 	void			RegisterLuaFuncs	( MOAILuaState& state );
@@ -55,7 +57,7 @@ public:
 	static const u32 TILE_OBSTRUCT_OPAQUE	= 0x60000000;
 
 	static const u32 FLAGS_MASK				= 0xf0000000;
-	static const u32 CODE_MASK				= 0x0fffffff;
+	static const u32 LIGHT_MASK				= 0x000000ff;
 
 };
 
