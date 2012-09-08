@@ -18,7 +18,7 @@ end
 
 grid = MOAIMapGrid.new ()
 grid:setSize ( 10, 40 )
-grid:fill ( 0 )
+grid:fill ( 1 )
 
 
 -- flat line overhead
