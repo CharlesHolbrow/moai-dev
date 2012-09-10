@@ -18,7 +18,7 @@ end
 
 grid = MOAIMapGrid.new ()
 grid:setSize ( 10, 40 )
-grid:fill ( 1 )
+grid:fill ( 24 )
 
 
 -- flat line overhead
@@ -43,10 +43,12 @@ grid:setTileFlags ( 5, 18, MOAIMapGrid.TILE_OPAQUE )
 grid:setTileFlags ( 5, 17, MOAIMapGrid.TILE_OPAQUE )
 grid:setTileFlags ( 5, 16, MOAIMapGrid.TILE_OPAQUE )
 
+
+
 grid:setTileFlags ( 5, 20, MOAIMapGrid.TILE_OBSTRUCT_OPAQUE )
 pGrid ( grid )
 
-grid:fieldOfView ( 5, 20, 8 )
+grid:fieldOfView ( 5, 20, 10 )
 
 grid:setTileFlags ( 5, 20, MOAIMapGrid.TILE_OBSTRUCT_OPAQUE )
 pGrid ( grid )

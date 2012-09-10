@@ -42,7 +42,7 @@ public:
 	//----------------------------------------------------------------//
 					MOAIMapGrid			();
 					~MOAIMapGrid		();
-	void			FieldOfView			( int xTile, int yTile, int radius, int startOct = 0, int endOct = 7 );
+	void			FieldOfView			( int xTile, int yTile, int radius, char startOct = 0, char endOct = 7 );
 	bool			Opaque				( int xTile, int yTile );
 	void			FillLight			( u32 value );
 

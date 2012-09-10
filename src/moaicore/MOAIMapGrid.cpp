@@ -1,7 +1,8 @@
-// Copyright (c) 2010-2011 Zipline Games, Inc. All Rights Reserved.
-// http://getmoai.com
+// Copyright (c) 2010-2012 Charles Holbrow
+// http://www.PixelAether.com
 
 #include "pch.h"
+#include <math.h>
 #include <moaicore/MOAIMapGrid.h>
 #include <moaicore/MOAILogMessages.h>
 #include <moaicore/MOAIStream.h>
@@ -78,27 +79,27 @@ void MOAIMapGrid::GetAngles ( int xTile, int yTile, float & a2, float & a3 ) {
 
 //----------------------------------------------------------------//
 // Octants:
-//   3  0
-// 2      1
-// 5      6
-//   4  7
+//   7  0
+// 6      1
+// 5      2
+//   4  3
 void MOAIMapGrid::Octant ( int x, int y, int o, int & xOut, int & yOut) {
 
 	xOut = x * xxcomp [ o ] + y * xycomp [ o ];
 	yOut = x * yxcomp [ o ] + y * yycomp [ o ];
 }
 
-int MOAIMapGrid::xxcomp[] = { 1, 0,  0, -1, -1,  0,  0,  1 };
-int MOAIMapGrid::xycomp[] = { 0, 1, -1,  0,  0, -1,  1,  0 };
-int MOAIMapGrid::yxcomp[] = { 0, 1,  1,  0,  0, -1, -1,  0 };
-int MOAIMapGrid::yycomp[] = { 1, 0,  0,  1, -1,  0,  0, -1 };
+int MOAIMapGrid::xxcomp[] = { 1, 0,  0,  1, -1,  0,  0, -1 };
+int MOAIMapGrid::xycomp[] = { 0, 1,  1,  0,  0, -1, -1,  0 };
+int MOAIMapGrid::yxcomp[] = { 0, 1, -1,  0,  0, -1,  1,  0 };
+int MOAIMapGrid::yycomp[] = { 1, 0,  0, -1, -1,  0,  0,  1 };
 
 //================================================================//
 // MOAIMapGrid
 //================================================================//
 
 //----------------------------------------------------------------//
-void MOAIMapGrid::FieldOfView ( int xTile, int yTile, int radius, int startOct, int endOct ) {
+void MOAIMapGrid::FieldOfView ( int xTile, int yTile, int radius, char startOct, char endOct ) {
 
 	MOAICellCoord coord ( xTile, yTile );
 	if ( !( this->IsValidCoord ( coord ) ) ) return;
@@ -124,7 +125,7 @@ void MOAIMapGrid::FieldOfView ( int xTile, int yTile, int radius, int startOct, 
 	int arrayCheckPosition;
 
 	// for testing only
-	int i = 1;
+	int i = 0;
 
 	// three angles for each tile
 	float a1, a2, a3;
@@ -141,13 +142,18 @@ void MOAIMapGrid::FieldOfView ( int xTile, int yTile, int radius, int startOct, 
 	int xOct;
 	int yOct;
 
-	// set the tile we are inspecting to visible 
-	SetTile ( xTile, yTile, 0 );
+	// Gonna put the answer in this handy array
+	USLeanArray < bool > answer;
+	int answerWidth = radius * 2 + 1;
+	answer.Init ( answerWidth * answerWidth );
+	answer.Fill ( false );
+	bool * answerCursor = answer.Data ();
 
-	for ( int oct = startOct; oct <= endOct; ++oct ) {
+
+	for ( char oct = startOct; oct <= endOct; ++oct ) {
 
 		totalObstructions = 0;
-	
+
 		// row and yPos are the same
 		for ( int yPos = 1; yPos <= radius; yPos++ ) {
 
@@ -208,13 +214,66 @@ void MOAIMapGrid::FieldOfView ( int xTile, int yTile, int radius, int startOct, 
 						( o2 && o3 ) ) {
 						u32 newVal = 0;
 
-						if ( opaque ) newVal = newVal | TILE_OPAQUE;
-
-						SetTile ( x, y, newVal ) ;
-
+						//*answerCursor = true;
+						u32 i = answerWidth * ( yOct + radius ) + xOct + radius;
+						answer [ i ] = true;
+						//printf ( "here's i WRITING %i\n", i );
 					};
 				};
+
+				++answerCursor;
 			};
+		};
+	};
+
+
+	if ( radius <= 0 ) return;
+
+	// set the tile we are inspecting to visible 
+	SetTile ( xTile, yTile, 0 );
+
+	// Iterate over the answer array
+	answerCursor = answer.Data ();
+
+	int xStart = xTile - radius;
+	int xEnd = xTile + radius;
+
+	int yStart = yTile - radius;
+	int yEnd = yTile + radius;
+
+	for ( int yPos = yStart; yPos <= yEnd; yPos ++ ) {
+		for ( int xPos = xStart; xPos <= xEnd; xPos ++ ) {
+			
+			if ( *answerCursor ) {
+
+				int xDist = xTile - xPos;
+				int yDist = yTile - yPos;
+
+				u32 value = GetTile ( xPos, yPos );
+				int curLight = 24 - (value & LIGHT_MASK);
+
+				float dist = sqrt ( (float) (xDist * xDist + yDist * yDist ) );
+				float normalizedDist = dist / radius;
+				
+				int newLight = 24 - u32 ( normalizedDist * 24.0f) ;
+
+				if ( newLight < 0 ) newLight = 0; 
+				if ( newLight > 24 ) newLight = 24;
+
+				int shadow;
+
+				if ( ( newLight + curLight ) > 24 ) shadow = 0;
+				else shadow = 24 - newLight - curLight;
+
+				//if ( xPos == 10 && yPos == 19 )
+				//	printf ( "value: %i %i, %i, %i, %i \n", xPos, yPos, value, curLight, newLight, shadow );
+
+				value = ( value & (~LIGHT_MASK) ) + shadow;
+
+				SetTile (xPos, yPos, value );
+			};
+	
+			++answerCursor;
 		};
 	};
 }
