@@ -121,11 +121,12 @@ void MOAIMapGrid::FieldOfView ( int xTile, int yTile, int radius, char startOct,
 	// adjacent Obstructions should count as one
 	int totalObstructions;
 	int lineObstructions;
+	
+	// Count the number of visible tiles on the current line
+	char visibleTileCount;
+	bool lastLineEmpty = false;
 	// Where in the array do we want to check from
 	int arrayCheckPosition;
-
-	// for testing only
-	int i = 0;
 
 	// three angles for each tile
 	float a1, a2, a3;
@@ -147,8 +148,6 @@ void MOAIMapGrid::FieldOfView ( int xTile, int yTile, int radius, char startOct,
 	int answerWidth = radius * 2 + 1;
 	answer.Init ( answerWidth * answerWidth );
 	answer.Fill ( false );
-	bool * answerCursor = answer.Data ();
-
 
 	for ( char oct = startOct; oct <= endOct; ++oct ) {
 
@@ -158,6 +157,7 @@ void MOAIMapGrid::FieldOfView ( int xTile, int yTile, int radius, char startOct,
 		for ( int yPos = 1; yPos <= radius; yPos++ ) {
 
 			lineObstructions = 0;
+			visibleTileCount = 0;
 			a3 = 0;
 
 			for ( int xPos = 0; xPos <= yPos; xPos++ ) {
@@ -209,22 +209,22 @@ void MOAIMapGrid::FieldOfView ( int xTile, int yTile, int radius, char startOct,
 
 					// conditions for visibility
 					if (
-						( opaque ) ||
-						( o1 && 02 ) || 
+						( opaque && !lastLineEmpty ) ||
+						( o1 && o2 ) || 
 						( o2 && o3 ) ) {
-						u32 newVal = 0;
 
-						//*answerCursor = true;
+						++visibleTileCount;
+						
 						u32 i = answerWidth * ( yOct + radius ) + xOct + radius;
 						answer [ i ] = true;
 						//printf ( "here's i WRITING %i\n", i );
 					};
 				};
-
-				++answerCursor;
-			};
-		};
-	};
+			};// xPos
+			
+			lastLineEmpty = ( visibleTileCount == 0 );
+		}; // yPos
+	}; // octant
 
 
 	if ( radius <= 0 ) return;
@@ -233,7 +233,7 @@ void MOAIMapGrid::FieldOfView ( int xTile, int yTile, int radius, char startOct,
 	SetTile ( xTile, yTile, 0 );
 
 	// Iterate over the answer array
-	answerCursor = answer.Data ();
+	bool * answerCursor = answer.Data ();
 
 	int xStart = xTile - radius;
 	int xEnd = xTile + radius;

@@ -1407,6 +1407,42 @@
 		07F59347143E318B00C6D185 /* MOAIUntzSampleBuffer.h in Headers */ = {isa = PBXBuildFile; fileRef = 07F59343143E318B00C6D185 /* MOAIUntzSampleBuffer.h */; };
 		07FAC91613B8F1CA00AFD0B3 /* moaicore-pch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 07FAC91513B8F1CA00AFD0B3 /* moaicore-pch.cpp */; };
 		07FAC91813B8F1E000AFD0B3 /* uslscore-pch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 07FAC91713B8F1E000AFD0B3 /* uslscore-pch.cpp */; };
+		413F028915FEEB3000840B2F /* MOAIMapGrid.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 413F028715FEEB3000840B2F /* MOAIMapGrid.cpp */; };
+		413F028A15FEEB3000840B2F /* MOAIMapGrid.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 413F028715FEEB3000840B2F /* MOAIMapGrid.cpp */; };
+		413F028B15FEEB3000840B2F /* MOAIMapGrid.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 413F028715FEEB3000840B2F /* MOAIMapGrid.cpp */; };
+		413F028C15FEEB3000840B2F /* MOAIMapGrid.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 413F028715FEEB3000840B2F /* MOAIMapGrid.cpp */; };
+		413F028D15FEEB3000840B2F /* MOAIMapGrid.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 413F028715FEEB3000840B2F /* MOAIMapGrid.cpp */; };
+		413F028E15FEEB3000840B2F /* MOAIMapGrid.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 413F028715FEEB3000840B2F /* MOAIMapGrid.cpp */; };
+		413F028F15FEEB3000840B2F /* MOAIMapGrid.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 413F028715FEEB3000840B2F /* MOAIMapGrid.cpp */; };
+		413F029015FEEB3000840B2F /* MOAIMapGrid.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 413F028715FEEB3000840B2F /* MOAIMapGrid.cpp */; };
+		413F029115FEEB3000840B2F /* MOAIMapGrid.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 413F028715FEEB3000840B2F /* MOAIMapGrid.cpp */; };
+		413F029215FEEB3000840B2F /* MOAIMapGrid.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 413F028715FEEB3000840B2F /* MOAIMapGrid.cpp */; };
+		413F029315FEEB3000840B2F /* MOAIMapGrid.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 413F028715FEEB3000840B2F /* MOAIMapGrid.cpp */; };
+		413F029415FEEB3000840B2F /* MOAIMapGrid.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 413F028715FEEB3000840B2F /* MOAIMapGrid.cpp */; };
+		413F029515FEEB3000840B2F /* MOAIMapGrid.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 413F028715FEEB3000840B2F /* MOAIMapGrid.cpp */; };
+		413F029615FEEB3000840B2F /* MOAIMapGrid.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 413F028715FEEB3000840B2F /* MOAIMapGrid.cpp */; };
+		413F029715FEEB3000840B2F /* MOAIMapGrid.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 413F028715FEEB3000840B2F /* MOAIMapGrid.cpp */; };
+		413F029815FEEB3000840B2F /* MOAIMapGrid.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 413F028715FEEB3000840B2F /* MOAIMapGrid.cpp */; };
+		413F029915FEEB3000840B2F /* MOAIMapGrid.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 413F028715FEEB3000840B2F /* MOAIMapGrid.cpp */; };
+		413F029A15FEEB3000840B2F /* MOAIMapGrid.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 413F028715FEEB3000840B2F /* MOAIMapGrid.cpp */; };
+		413F029B15FEEB3000840B2F /* MOAIMapGrid.h in Headers */ = {isa = PBXBuildFile; fileRef = 413F028815FEEB3000840B2F /* MOAIMapGrid.h */; };
+		413F029C15FEEB3000840B2F /* MOAIMapGrid.h in Headers */ = {isa = PBXBuildFile; fileRef = 413F028815FEEB3000840B2F /* MOAIMapGrid.h */; };
+		413F029D15FEEB3000840B2F /* MOAIMapGrid.h in Headers */ = {isa = PBXBuildFile; fileRef = 413F028815FEEB3000840B2F /* MOAIMapGrid.h */; };
+		413F029E15FEEB3000840B2F /* MOAIMapGrid.h in Headers */ = {isa = PBXBuildFile; fileRef = 413F028815FEEB3000840B2F /* MOAIMapGrid.h */; };
+		413F029F15FEEB3000840B2F /* MOAIMapGrid.h in Headers */ = {isa = PBXBuildFile; fileRef = 413F028815FEEB3000840B2F /* MOAIMapGrid.h */; };
+		413F02A015FEEB3000840B2F /* MOAIMapGrid.h in Headers */ = {isa = PBXBuildFile; fileRef = 413F028815FEEB3000840B2F /* MOAIMapGrid.h */; };
+		413F02A115FEEB3000840B2F /* MOAIMapGrid.h in Headers */ = {isa = PBXBuildFile; fileRef = 413F028815FEEB3000840B2F /* MOAIMapGrid.h */; };
+		413F02A215FEEB3000840B2F /* MOAIMapGrid.h in Headers */ = {isa = PBXBuildFile; fileRef = 413F028815FEEB3000840B2F /* MOAIMapGrid.h */; };
+		413F02A315FEEB3100840B2F /* MOAIMapGrid.h in Headers */ = {isa = PBXBuildFile; fileRef = 413F028815FEEB3000840B2F /* MOAIMapGrid.h */; };
+		413F02A415FEEB3100840B2F /* MOAIMapGrid.h in Headers */ = {isa = PBXBuildFile; fileRef = 413F028815FEEB3000840B2F /* MOAIMapGrid.h */; };
+		413F02A515FEEB3100840B2F /* MOAIMapGrid.h in Headers */ = {isa = PBXBuildFile; fileRef = 413F028815FEEB3000840B2F /* MOAIMapGrid.h */; };
+		413F02A615FEEB3100840B2F /* MOAIMapGrid.h in Headers */ = {isa = PBXBuildFile; fileRef = 413F028815FEEB3000840B2F /* MOAIMapGrid.h */; };
+		413F02A715FEEB3100840B2F /* MOAIMapGrid.h in Headers */ = {isa = PBXBuildFile; fileRef = 413F028815FEEB3000840B2F /* MOAIMapGrid.h */; };
+		413F02A815FEEB3100840B2F /* MOAIMapGrid.h in Headers */ = {isa = PBXBuildFile; fileRef = 413F028815FEEB3000840B2F /* MOAIMapGrid.h */; };
+		413F02A915FEEB3100840B2F /* MOAIMapGrid.h in Headers */ = {isa = PBXBuildFile; fileRef = 413F028815FEEB3000840B2F /* MOAIMapGrid.h */; };
+		413F02AA15FEEB3100840B2F /* MOAIMapGrid.h in Headers */ = {isa = PBXBuildFile; fileRef = 413F028815FEEB3000840B2F /* MOAIMapGrid.h */; };
+		413F02AB15FEEB3100840B2F /* MOAIMapGrid.h in Headers */ = {isa = PBXBuildFile; fileRef = 413F028815FEEB3000840B2F /* MOAIMapGrid.h */; };
+		413F02AC15FEEB3100840B2F /* MOAIMapGrid.h in Headers */ = {isa = PBXBuildFile; fileRef = 413F028815FEEB3000840B2F /* MOAIMapGrid.h */; };
 		66459FB41511638B0075BF13 /* AKU-audiosampler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 66459FB31511638B0075BF13 /* AKU-audiosampler.cpp */; };
 		66459FB51511638B0075BF13 /* AKU-audiosampler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 66459FB31511638B0075BF13 /* AKU-audiosampler.cpp */; };
 		66459FBA1511641F0075BF13 /* MOAIAudioSampler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 66459FB81511641F0075BF13 /* MOAIAudioSampler.cpp */; };
@@ -4165,6 +4201,8 @@
 		07F59343143E318B00C6D185 /* MOAIUntzSampleBuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MOAIUntzSampleBuffer.h; path = "moaiext-untz/MOAIUntzSampleBuffer.h"; sourceTree = "<group>"; };
 		07FAC91513B8F1CA00AFD0B3 /* moaicore-pch.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = "moaicore-pch.cpp"; sourceTree = "<group>"; };
 		07FAC91713B8F1E000AFD0B3 /* uslscore-pch.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = "uslscore-pch.cpp"; sourceTree = "<group>"; };
+		413F028715FEEB3000840B2F /* MOAIMapGrid.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MOAIMapGrid.cpp; sourceTree = "<group>"; };
+		413F028815FEEB3000840B2F /* MOAIMapGrid.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MOAIMapGrid.h; sourceTree = "<group>"; };
 		66459FB31511638B0075BF13 /* AKU-audiosampler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = "AKU-audiosampler.cpp"; sourceTree = "<group>"; };
 		66459FB81511641F0075BF13 /* MOAIAudioSampler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MOAIAudioSampler.cpp; sourceTree = "<group>"; };
 		66459FB91511641F0075BF13 /* MOAIAudioSampler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MOAIAudioSampler.h; sourceTree = "<group>"; };
@@ -7513,6 +7551,8 @@
 				0324E54313564BC7000ADC60 /* MOAIGrid.cpp */,
 				0324E54413564BC7000ADC60 /* MOAIGrid.h */,
 				CDEFB3E613E37F3C000A9523 /* MOAIGridSpace.cpp */,
+				413F028715FEEB3000840B2F /* MOAIMapGrid.cpp */,
+				413F028815FEEB3000840B2F /* MOAIMapGrid.h */,
 				CDEFB3E713E37F3C000A9523 /* MOAIGridSpace.h */,
 				CDEFB3F313E37F3C000A9523 /* MOAITileFlags.cpp */,
 				CDEFB3F413E37F3C000A9523 /* MOAITileFlags.h */,
@@ -9857,6 +9897,7 @@
 				CD04AF0514725714009C20E5 /* zconf.h in Headers */,
 				CD04AF0814725714009C20E5 /* zlib.h in Headers */,
 				CD04AF0E14725714009C20E5 /* zutil.h in Headers */,
+				413F02A715FEEB3100840B2F /* MOAIMapGrid.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -10148,6 +10189,7 @@
 				66C572A61575713C00A486AB /* USStreamReader.h in Headers */,
 				66C572AC1575714B00A486AB /* USBase64Encoder.h in Headers */,
 				66C572B21575717000A486AB /* MOAIGridDeck2D.h in Headers */,
+				413F02A615FEEB3100840B2F /* MOAIMapGrid.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -10555,6 +10597,7 @@
 				66A6451815462EC0009796A3 /* inet_net_pton.h in Headers */,
 				66A6451B15462EC0009796A3 /* nameser.h in Headers */,
 				66A6451C15462EC0009796A3 /* setup_once.h in Headers */,
+				413F029C15FEEB3000840B2F /* MOAIMapGrid.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -10856,6 +10899,7 @@
 				669E287815914B320037E24C /* RiffFile.h in Headers */,
 				669E287A15914B320037E24C /* WaveFile.h in Headers */,
 				669E287C15914B320037E24C /* WaveFileAudioSource.h in Headers */,
+				413F029B15FEEB3000840B2F /* MOAIMapGrid.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -10865,6 +10909,7 @@
 			files = (
 				071398D214F46C5A00745A12 /* AdColonyPublic.h in Headers */,
 				E9CA1E02151AE80E005F39B7 /* MOAIAdColonyIOS.h in Headers */,
+				413F029D15FEEB3000840B2F /* MOAIMapGrid.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -10937,6 +10982,7 @@
 				07F11A7C15391291004EAA24 /* TapjoyConnect.h in Headers */,
 				07F11A7E15391291004EAA24 /* TapjoyConnectConstants.h in Headers */,
 				07F11A7F15391291004EAA24 /* TJCConfig.h in Headers */,
+				413F02A315FEEB3100840B2F /* MOAIMapGrid.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -10958,6 +11004,7 @@
 				07F4C7C914FC449E00FB78BA /* SBJsonParser.h in Headers */,
 				07F4C7CA14FC449E00FB78BA /* SBJsonWriter.h in Headers */,
 				E9CA1E15151BC1DE005F39B7 /* MOAIFacebookIOS.h in Headers */,
+				413F029F15FEEB3000840B2F /* MOAIMapGrid.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -10990,6 +11037,7 @@
 				CDD2EB0B155B4EE300BD5BB1 /* ZLZipArchive.h in Headers */,
 				CDD2EB0F155B4EE300BD5BB1 /* ZLZipStream.h in Headers */,
 				CDE8A7BA155E413100C2DFF5 /* zlcore.h in Headers */,
+				413F02A515FEEB3100840B2F /* MOAIMapGrid.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -11012,6 +11060,7 @@
 				CDD2EB0C155B4EE300BD5BB1 /* ZLZipArchive.h in Headers */,
 				CDD2EB10155B4EE300BD5BB1 /* ZLZipStream.h in Headers */,
 				CDE8A7BB155E413100C2DFF5 /* zlcore.h in Headers */,
+				413F02AC15FEEB3100840B2F /* MOAIMapGrid.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -11023,6 +11072,7 @@
 				CD07C3D913A1832C00C9386C /* MOAIUntzSound.h in Headers */,
 				CD07C3DB13A1832C00C9386C /* MOAIUntzSystem.h in Headers */,
 				07F59345143E318B00C6D185 /* MOAIUntzSampleBuffer.h in Headers */,
+				413F02A415FEEB3100840B2F /* MOAIMapGrid.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -11034,6 +11084,7 @@
 				CD07C50013A191D800C9386C /* MOAIUntzSound.h in Headers */,
 				CD07C50213A191D800C9386C /* MOAIUntzSystem.h in Headers */,
 				07F59347143E318B00C6D185 /* MOAIUntzSampleBuffer.h in Headers */,
+				413F02AB15FEEB3100840B2F /* MOAIMapGrid.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -11045,6 +11096,7 @@
 				CD508A04155E3AEC0002FC3B /* MOAIFmodExChannel.h in Headers */,
 				CD508A06155E3AEC0002FC3B /* MOAIFmodExSound.h in Headers */,
 				E969157E1561BB93007E977B /* AKU-fmod-ex.h in Headers */,
+				413F02A115FEEB3000840B2F /* MOAIMapGrid.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -11071,6 +11123,7 @@
 				CDD06E551398B5A500AB0420 /* AKU-luaext.h in Headers */,
 				E9940D6A14B7A217006465CC /* lfs.h in Headers */,
 				E9940D7014B7A414006465CC /* MOAICoroutine.h in Headers */,
+				413F02A215FEEB3000840B2F /* MOAIMapGrid.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -11097,6 +11150,7 @@
 				CDD06E571398B5A500AB0420 /* AKU-luaext.h in Headers */,
 				E9940D6B14B7A217006465CC /* lfs.h in Headers */,
 				E9940D7114B7A414006465CC /* MOAICoroutine.h in Headers */,
+				413F02AA15FEEB3100840B2F /* MOAIMapGrid.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -11104,6 +11158,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				413F02A015FEEB3000840B2F /* MOAIMapGrid.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -11111,6 +11166,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				413F02A815FEEB3100840B2F /* MOAIMapGrid.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -11122,6 +11178,7 @@
 				CDCA856B155E446D00BF658F /* MOAIFmodExChannel.h in Headers */,
 				CDCA856D155E446D00BF658F /* MOAIFmodExSound.h in Headers */,
 				E969157F1561BB93007E977B /* AKU-fmod-ex.h in Headers */,
+				413F02A915FEEB3100840B2F /* MOAIMapGrid.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -11131,6 +11188,7 @@
 			files = (
 				E98DBDAD1537A2A900514387 /* ChartBoost.h in Headers */,
 				E98DBDC81537A2BF00514387 /* MOAIChartBoostIOS.h in Headers */,
+				413F029E15FEEB3000840B2F /* MOAIMapGrid.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -11816,6 +11874,7 @@
 				6671AEA015915C1500B36122 /* RiffFile.cpp in Sources */,
 				6671AEA215915C1500B36122 /* WaveFile.cpp in Sources */,
 				6671AEA415915C1500B36122 /* WaveFileAudioSource.cpp in Sources */,
+				413F029515FEEB3000840B2F /* MOAIMapGrid.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -12060,6 +12119,7 @@
 				66C572A41575713C00A486AB /* USStreamReader.cpp in Sources */,
 				66C572AA1575714B00A486AB /* USBase64Encoder.cpp in Sources */,
 				66C572B01575717000A486AB /* MOAIGridDeck2D.cpp in Sources */,
+				413F029415FEEB3000840B2F /* MOAIMapGrid.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -13025,6 +13085,7 @@
 				6671AE9F15915C1500B36122 /* RiffFile.cpp in Sources */,
 				6671AEA115915C1500B36122 /* WaveFile.cpp in Sources */,
 				6671AEA315915C1500B36122 /* WaveFileAudioSource.cpp in Sources */,
+				413F028A15FEEB3000840B2F /* MOAIMapGrid.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -13297,6 +13358,7 @@
 				66C572A91575714B00A486AB /* USBase64Encoder.cpp in Sources */,
 				66C572AF1575717000A486AB /* MOAIGridDeck2D.cpp in Sources */,
 				E9DE4582157EA38800630A7D /* MOAIMoviePlayerIOS.mm in Sources */,
+				413F028915FEEB3000840B2F /* MOAIMapGrid.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -13305,6 +13367,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E9CA1E03151AE80E005F39B7 /* MOAIAdColonyIOS.mm in Sources */,
+				413F028B15FEEB3000840B2F /* MOAIMapGrid.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -13367,6 +13430,7 @@
 				07F11A7915391291004EAA24 /* TJCVGUtil.m in Sources */,
 				07F11A7B15391291004EAA24 /* TJCVGViewHandler.m in Sources */,
 				07F11A7D15391291004EAA24 /* TapjoyConnect.m in Sources */,
+				413F029115FEEB3000840B2F /* MOAIMapGrid.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -13375,6 +13439,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E9CA1E16151BC1DE005F39B7 /* MOAIFacebookIOS.mm in Sources */,
+				413F028D15FEEB3000840B2F /* MOAIMapGrid.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -13405,6 +13470,7 @@
 				CDD2EB09155B4EE300BD5BB1 /* ZLZipArchive.cpp in Sources */,
 				CDD2EB0D155B4EE300BD5BB1 /* ZLZipStream.cpp in Sources */,
 				CDE8A7B8155E413100C2DFF5 /* zlcore.cpp in Sources */,
+				413F029315FEEB3000840B2F /* MOAIMapGrid.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -13423,6 +13489,7 @@
 				CDD2EB0A155B4EE300BD5BB1 /* ZLZipArchive.cpp in Sources */,
 				CDD2EB0E155B4EE300BD5BB1 /* ZLZipStream.cpp in Sources */,
 				CDE8A7B9155E413100C2DFF5 /* zlcore.cpp in Sources */,
+				413F029A15FEEB3000840B2F /* MOAIMapGrid.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -13468,6 +13535,7 @@
 				031BBBAF13B18A0C0005ECE0 /* vorbisfile.c in Sources */,
 				031BBBB013B18A0C0005ECE0 /* window.c in Sources */,
 				07F59344143E318B00C6D185 /* MOAIUntzSampleBuffer.cpp in Sources */,
+				413F029215FEEB3000840B2F /* MOAIMapGrid.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -13513,6 +13581,7 @@
 				031BBBC513B18A0D0005ECE0 /* vorbisfile.c in Sources */,
 				031BBBC613B18A0D0005ECE0 /* window.c in Sources */,
 				07F59346143E318B00C6D185 /* MOAIUntzSampleBuffer.cpp in Sources */,
+				413F029915FEEB3000840B2F /* MOAIMapGrid.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -13524,6 +13593,7 @@
 				CD508A03155E3AEC0002FC3B /* MOAIFmodExChannel.cpp in Sources */,
 				CD508A05155E3AEC0002FC3B /* MOAIFmodExSound.cpp in Sources */,
 				E969157C1561BB93007E977B /* AKU-fmod-ex.cpp in Sources */,
+				413F028F15FEEB3000840B2F /* MOAIMapGrid.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -13549,6 +13619,7 @@
 				CDD06E541398B5A500AB0420 /* AKU-luaext.cpp in Sources */,
 				E9940D6814B7A217006465CC /* lfs.c in Sources */,
 				E9940D6E14B7A414006465CC /* MOAICoroutine.cpp in Sources */,
+				413F029015FEEB3000840B2F /* MOAIMapGrid.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -13574,6 +13645,7 @@
 				CDD06E561398B5A500AB0420 /* AKU-luaext.cpp in Sources */,
 				E9940D6914B7A217006465CC /* lfs.c in Sources */,
 				E9940D6F14B7A414006465CC /* MOAICoroutine.cpp in Sources */,
+				413F029815FEEB3000840B2F /* MOAIMapGrid.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -13581,6 +13653,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				413F028E15FEEB3000840B2F /* MOAIMapGrid.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -13588,6 +13661,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				413F029615FEEB3000840B2F /* MOAIMapGrid.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -13599,6 +13673,7 @@
 				CDCA856A155E446D00BF658F /* MOAIFmodExChannel.cpp in Sources */,
 				CDCA856C155E446D00BF658F /* MOAIFmodExSound.cpp in Sources */,
 				E969157D1561BB93007E977B /* AKU-fmod-ex.cpp in Sources */,
+				413F029715FEEB3000840B2F /* MOAIMapGrid.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -13607,6 +13682,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E98DBDCA1537A2CB00514387 /* MOAIChartBoostIOS.mm in Sources */,
+				413F028C15FEEB3000840B2F /* MOAIMapGrid.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
