@@ -78,37 +78,12 @@ void MOAIMapGrid::GetAngles ( int xTile, int yTile, float & a2, float & a3 ) {
 }
 
 //----------------------------------------------------------------//
-// Octants:
-//   7  0
-// 6      1
-// 5      2
-//   4  3
-void MOAIMapGrid::Octant ( int x, int y, int o, int & xOut, int & yOut) {
+void MOAIMapGrid::LineOfSight ( int xTile, int yTile, int radius, USLeanArray < bool > * answer, char startOct, char endOct ) {
 
-	xOut = x * xxcomp [ o ] + y * xycomp [ o ];
-	yOut = x * yxcomp [ o ] + y * yycomp [ o ];
-}
+	// set the tile we are inspecting to visible 
+	SetTile ( xTile, yTile, 0 );
 
-int MOAIMapGrid::xxcomp[] = { 1, 0,  0,  1, -1,  0,  0, -1 };
-int MOAIMapGrid::xycomp[] = { 0, 1,  1,  0,  0, -1, -1,  0 };
-int MOAIMapGrid::yxcomp[] = { 0, 1, -1,  0,  0, -1,  1,  0 };
-int MOAIMapGrid::yycomp[] = { 1, 0,  0, -1, -1,  0,  0,  1 };
-
-//================================================================//
-// MOAIMapGrid
-//================================================================//
-
-//----------------------------------------------------------------//
-void MOAIMapGrid::FieldOfView ( int xTile, int yTile, int radius, char startOct, char endOct ) {
-
-	MOAICellCoord coord ( xTile, yTile );
-	if ( !( this->IsValidCoord ( coord ) ) ) return;
-
-	// Sanity-check start and end octant
-	if (	( startOct < 0 ) || 
-			( endOct > 7 ) ||
-			( startOct > endOct ) )
-		return;
+	if ( radius <= 0 ) return;
 
 	// Store min and maxes here:
 	USLeanArray < float > mins;
@@ -143,11 +118,9 @@ void MOAIMapGrid::FieldOfView ( int xTile, int yTile, int radius, char startOct,
 	int xOct;
 	int yOct;
 
-	// Gonna put the answer in this handy array
-	USLeanArray < bool > answer;
+	// assume the answer array has been initialized
+	// calculate the width
 	int answerWidth = radius * 2 + 1;
-	answer.Init ( answerWidth * answerWidth );
-	answer.Fill ( false );
 
 	for ( char oct = startOct; oct <= endOct; ++oct ) {
 
@@ -216,21 +189,59 @@ void MOAIMapGrid::FieldOfView ( int xTile, int yTile, int radius, char startOct,
 						++visibleTileCount;
 						
 						u32 i = answerWidth * ( yOct + radius ) + xOct + radius;
-						answer [ i ] = true;
+						(*answer) [ i ] = true;
 						//printf ( "here's i WRITING %i\n", i );
 					};
-				};
+				}; // at lease one visible angle
 			};// xPos
 			
 			lastLineEmpty = ( visibleTileCount == 0 );
 		}; // yPos
 	}; // octant
+}
 
+//----------------------------------------------------------------//
+// Octants:
+//   7  0
+// 6      1
+// 5      2
+//   4  3
+void MOAIMapGrid::Octant ( int x, int y, int o, int & xOut, int & yOut) {
 
-	if ( radius <= 0 ) return;
+	xOut = x * xxcomp [ o ] + y * xycomp [ o ];
+	yOut = x * yxcomp [ o ] + y * yycomp [ o ];
+}
 
-	// set the tile we are inspecting to visible 
-	SetTile ( xTile, yTile, 0 );
+int MOAIMapGrid::xxcomp[] = { 1, 0,  0,  1, -1,  0,  0, -1 };
+int MOAIMapGrid::xycomp[] = { 0, 1,  1,  0,  0, -1, -1,  0 };
+int MOAIMapGrid::yxcomp[] = { 0, 1, -1,  0,  0, -1,  1,  0 };
+int MOAIMapGrid::yycomp[] = { 1, 0,  0, -1, -1,  0,  0,  1 };
+
+//================================================================//
+// MOAIMapGrid
+//================================================================//
+
+//----------------------------------------------------------------//
+void MOAIMapGrid::FieldOfView ( int xTile, int yTile, int radius, char startOct, char endOct ) {
+
+	MOAICellCoord coord ( xTile, yTile );
+	if ( !( this->IsValidCoord ( coord ) ) ) return;
+
+	// Sanity-check start and end octant
+	if (	( startOct < 0 ) || 
+			( endOct > 7 ) ||
+			( startOct >= endOct ) )
+		return;
+
+	// Gonna put the answer in this handy array
+	USLeanArray < bool > answer;
+	int answerWidth = radius * 2 + 1;
+	answer.Init ( answerWidth * answerWidth );
+	answer.Fill ( false );
+
+	// Find which tiles are visible
+	// populate the answer array
+	LineOfSight ( xTile, yTile, radius, &answer, startOct, endOct );
 
 	// Iterate over the answer array
 	bool * answerCursor = answer.Data ();
@@ -286,15 +297,11 @@ void MOAIMapGrid::FillLight ( u32 value ) {
 
 	FillPreservingFlags ( value, ~LIGHT_MASK ) ;
 }
+
 //----------------------------------------------------------------//
 MOAIMapGrid::MOAIMapGrid () {
 	
-//	RTTI_SINGLE ( MOAIGrid )
-	RTTI_BEGIN
-		RTTI_EXTEND ( MOAIGrid )
-		
-	RTTI_END
-
+	RTTI_SINGLE ( MOAIGrid )
 }
 
 //----------------------------------------------------------------//

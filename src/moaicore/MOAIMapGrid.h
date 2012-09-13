@@ -25,6 +25,7 @@ private:
 	//----------------------------------------------------------------//
 	bool			AngleVisible		( float a, USLeanArray <float> * mins, USLeanArray <float> * maxes, int loc );
 	void			GetAngles			( int xTile, int yTile, float & a2, float & a3 );
+	void			LineOfSight			( int xTile, int yTile, int radius, USLeanArray < bool > * answer, char startOct, char endOct );
 	void			Octant				( int x, int y, int o, int & xOut, int & yOut );
 
 	//----------------------------------------------------------------//
