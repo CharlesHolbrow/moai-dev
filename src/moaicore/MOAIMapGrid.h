@@ -8,6 +8,32 @@
 #include <moaicore/MOAILua.h>
 
 //================================================================//
+// MOAIFieldOfView
+//================================================================//
+class MOAIFieldOfView {
+
+private:
+
+	//----------------------------------------------------------------//
+	int					mWidth;
+	int					mHeight;
+	USLeanArray	<bool>	answer;
+
+public:
+
+	//----------------------------------------------------------------//
+	GET ( int, Width, mWidth );
+	GET ( int, Height, mHeight );
+
+	//----------------------------------------------------------------//
+	bool *				Data ();
+	bool				GetTile ( int x, int y );
+	void				Init ( int width, int height );
+	void				SetTile ( int x, int y, bool value );
+	
+};
+
+//================================================================//
 // MOAIMapGrid
 //================================================================//
 /**	@name	MOAIMapGrid
@@ -25,7 +51,7 @@ private:
 	//----------------------------------------------------------------//
 	bool			AngleVisible		( float a, USLeanArray <float> * mins, USLeanArray <float> * maxes, int loc );
 	void			GetAngles			( int xTile, int yTile, float & a2, float & a3 );
-	void			LineOfSight			( int xTile, int yTile, int radius, USLeanArray < bool > * answer, char startOct, char endOct );
+	void			LineOfSight			( int xTile, int yTile, int radius, MOAIFieldOfView * answer, char startOct, char endOct );
 	void			Octant				( int x, int y, int o, int & xOut, int & yOut );
 
 	//----------------------------------------------------------------//

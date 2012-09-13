@@ -8,6 +8,42 @@
 #include <moaicore/MOAIStream.h>
 
 //================================================================//
+// MOAIFieldOfView
+//================================================================//
+
+//----------------------------------------------------------------//
+bool* MOAIFieldOfView::Data () {
+
+	return answer.Data();
+}
+
+//----------------------------------------------------------------//
+bool MOAIFieldOfView::GetTile ( int x, int y ) {
+
+	if ( x > mWidth || x < 0 ) return false;
+	if ( y > mHeight || y < 0 ) return false;
+	return answer [ y * mWidth + x ];
+};
+
+//----------------------------------------------------------------//
+void MOAIFieldOfView::Init ( int width, int height ) {
+
+	mWidth = width;
+	mHeight = height;
+
+	answer.Init ( width * height );
+	answer.Fill ( false );
+}
+
+//----------------------------------------------------------------//
+void MOAIFieldOfView::SetTile ( int x, int y, bool value ) {
+
+	if ( x >= mWidth || x < 0 ) return;
+	if ( y >= mHeight || y < 0 ) return;
+	answer [ y * mWidth + x ] = value;
+};
+
+//================================================================//
 // local
 //================================================================//
 
@@ -78,7 +114,7 @@ void MOAIMapGrid::GetAngles ( int xTile, int yTile, float & a2, float & a3 ) {
 }
 
 //----------------------------------------------------------------//
-void MOAIMapGrid::LineOfSight ( int xTile, int yTile, int radius, USLeanArray < bool > * answer, char startOct, char endOct ) {
+void MOAIMapGrid::LineOfSight ( int xTile, int yTile, int radius, MOAIFieldOfView * answer, char startOct, char endOct ) {
 
 	// set the tile we are inspecting to visible 
 	SetTile ( xTile, yTile, 0 );
@@ -188,8 +224,8 @@ void MOAIMapGrid::LineOfSight ( int xTile, int yTile, int radius, USLeanArray < 
 
 						++visibleTileCount;
 						
-						u32 i = answerWidth * ( yOct + radius ) + xOct + radius;
-						(*answer) [ i ] = true;
+						// input to SetTile is relative to bottom left of answer
+						( *answer ).SetTile ( + xOct + radius, yOct + radius, true );
 						//printf ( "here's i WRITING %i\n", i );
 					};
 				}; // at lease one visible angle
@@ -233,11 +269,10 @@ void MOAIMapGrid::FieldOfView ( int xTile, int yTile, int radius, char startOct,
 			( startOct >= endOct ) )
 		return;
 
-	// Gonna put the answer in this handy array
-	USLeanArray < bool > answer;
+	// Make a place to save the answer
 	int answerWidth = radius * 2 + 1;
-	answer.Init ( answerWidth * answerWidth );
-	answer.Fill ( false );
+	MOAIFieldOfView answer;
+	answer.Init ( answerWidth, answerWidth );
 
 	// Find which tiles are visible
 	// populate the answer array
