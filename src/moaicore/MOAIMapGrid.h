@@ -6,6 +6,7 @@
 
 #include <moaicore/MOAIGrid.h>
 #include <moaicore/MOAILua.h>
+#include <moaicore/MOAIAnimCurve.h>
 
 //================================================================//
 // MOAIFieldOfView
@@ -45,17 +46,18 @@ class MOAIMapGrid :
 private:
 
 	//----------------------------------------------------------------//
-	static int		_fieldOfView		( lua_State* L );
+	static int		_addLightSource		( lua_State* L );
 	static int		_fillLight			( lua_State* L );
 
 	//----------------------------------------------------------------//
 	bool			AngleVisible		( float a, USLeanArray <float> * mins, USLeanArray <float> * maxes, int loc );
 	void			GetAngles			( int xTile, int yTile, float & a2, float & a3 );
-	void			LineOfSight			( int xTile, int yTile, int radius, MOAIFieldOfView * answer, char startOct, char endOct );
+	void			FieldOfView			( int xTile, int yTile, int radius, MOAIFieldOfView * answer, char startOct, char endOct );
 	void			Octant				( int x, int y, int o, int & xOut, int & yOut );
 
 	//----------------------------------------------------------------//
 	static const int MAX_OBSTRUCTIONS = 30;
+	static const int MAX_RADIUS = 20;
 	static int xxcomp[8];
 	static int xycomp[8];
 	static int yxcomp[8];
@@ -69,12 +71,15 @@ public:
 	//----------------------------------------------------------------//
 					MOAIMapGrid			();
 					~MOAIMapGrid		();
-	void			FieldOfView			( int xTile, int yTile, int radius, char startOct = 0, char endOct = 7 );
+	void			AddLightSource		( int xTile, int yTile, int radius, MOAIAnimCurve* curve );
 	bool			Opaque				( int xTile, int yTile );
 	void			FillLight			( u32 value );
 
 	void			RegisterLuaClass	( MOAILuaState& state );
 	void			RegisterLuaFuncs	( MOAILuaState& state );
+
+	void			SetTileLight		( int x, int y, float brightness );
+	float			GetTileLight		( int x, int y );
 
 
 	//----------------------------------------------------------------//
@@ -85,6 +90,8 @@ public:
 
 	static const u32 FLAGS_MASK				= 0xf0000000;
 	static const u32 LIGHT_MASK				= 0x000000ff;
+
+	static const u8 BLACK_INDEX				= 24;
 
 };
 

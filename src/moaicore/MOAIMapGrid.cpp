@@ -5,7 +5,7 @@
 #include <math.h>
 #include <moaicore/MOAIMapGrid.h>
 #include <moaicore/MOAILogMessages.h>
-#include <moaicore/MOAIStream.h>
+#include <moaicore/MOAIAnimCurve.h>
 
 //================================================================//
 // MOAIFieldOfView
@@ -57,14 +57,15 @@ void MOAIFieldOfView::SetTile ( int x, int y, bool value ) {
 	@in		number mask
 	@out	nil
 */
-int MOAIMapGrid::_fieldOfView ( lua_State* L ) {
-	MOAI_LUA_SETUP ( MOAIMapGrid, "UNNN" )
+int MOAIMapGrid::_addLightSource ( lua_State* L ) {
+	MOAI_LUA_SETUP ( MOAIMapGrid, "UNNNU" )
 
 	int xTile	= state.GetValue < int >( 2, 1 ) - 1;
 	int yTile	= state.GetValue < int >( 3, 1 ) - 1;
 	int radius	= state.GetValue < int >( 4, 1 );
+	MOAIAnimCurve* curve = state.GetLuaObject < MOAIAnimCurve >( 5, 1 );
 	
-	self->FieldOfView ( xTile, yTile, radius );
+	self->AddLightSource ( xTile, yTile, radius, curve );
 	
 	return 0;
 }
@@ -114,7 +115,7 @@ void MOAIMapGrid::GetAngles ( int xTile, int yTile, float & a2, float & a3 ) {
 }
 
 //----------------------------------------------------------------//
-void MOAIMapGrid::LineOfSight ( int xTile, int yTile, int radius, MOAIFieldOfView * answer, char startOct, char endOct ) {
+void MOAIMapGrid::FieldOfView ( int xTile, int yTile, int radius, MOAIFieldOfView * answer, char startOct, char endOct ) {
 
 	// set the tile we are inspecting to visible 
 	SetTile ( xTile, yTile, 0 );
@@ -225,9 +226,9 @@ void MOAIMapGrid::LineOfSight ( int xTile, int yTile, int radius, MOAIFieldOfVie
 						++visibleTileCount;
 						
 						// input to SetTile is relative to bottom left of answer
-						( *answer ).SetTile ( + xOct + radius, yOct + radius, true );
-						//printf ( "here's i WRITING %i\n", i );
-					};
+						( *answer ).SetTile ( xOct + radius, yOct + radius, true );
+
+					}; // tile is visible
 				}; // at lease one visible angle
 			};// xPos
 			
@@ -258,25 +259,20 @@ int MOAIMapGrid::yycomp[] = { 1, 0,  0, -1, -1,  0,  0,  1 };
 //================================================================//
 
 //----------------------------------------------------------------//
-void MOAIMapGrid::FieldOfView ( int xTile, int yTile, int radius, char startOct, char endOct ) {
+void MOAIMapGrid::AddLightSource ( int xTile, int yTile, int radius, MOAIAnimCurve* curve) {
 
 	MOAICellCoord coord ( xTile, yTile );
 	if ( !( this->IsValidCoord ( coord ) ) ) return;
 
-	// Sanity-check start and end octant
-	if (	( startOct < 0 ) || 
-			( endOct > 7 ) ||
-			( startOct >= endOct ) )
-		return;
 
-	// Make a place to save the answer
+	// Init Object for storing the VieldOfView
 	int answerWidth = radius * 2 + 1;
 	MOAIFieldOfView answer;
 	answer.Init ( answerWidth, answerWidth );
 
 	// Find which tiles are visible
 	// populate the answer array
-	LineOfSight ( xTile, yTile, radius, &answer, startOct, endOct );
+	FieldOfView ( xTile, yTile, radius, &answer, 0, 7 );
 
 	// Iterate over the answer array
 	bool * answerCursor = answer.Data ();
@@ -295,28 +291,13 @@ void MOAIMapGrid::FieldOfView ( int xTile, int yTile, int radius, char startOct,
 				int xDist = xTile - xPos;
 				int yDist = yTile - yPos;
 
-				u32 value = GetTile ( xPos, yPos );
-				int curLight = 24 - (value & LIGHT_MASK);
-
 				float dist = sqrt ( (float) (xDist * xDist + yDist * yDist ) );
 				float normalizedDist = dist / radius;
-				
-				int newLight = 24 - u32 ( normalizedDist * 24.0f) ;
 
-				if ( newLight < 0 ) newLight = 0; 
-				if ( newLight > 24 ) newLight = 24;
+				float light = GetTileLight ( xPos, yPos );
+				light += curve->GetValue ( normalizedDist );
 
-				int shadow;
-
-				if ( ( newLight + curLight ) > 24 ) shadow = 0;
-				else shadow = 24 - newLight - curLight;
-
-				//if ( xPos == 10 && yPos == 19 )
-				//	printf ( "value: %i %i, %i, %i, %i \n", xPos, yPos, value, curLight, newLight, shadow );
-
-				value = ( value & (~LIGHT_MASK) ) + shadow;
-
-				SetTile (xPos, yPos, value );
+				SetTileLight ( xPos, yPos, light );
 			};
 	
 			++answerCursor;
@@ -331,6 +312,22 @@ void MOAIMapGrid::FillLight ( u32 value ) {
 		printf ( "WARNING: MOAIMapGrid::FillLight - value > 256 - %i\n", value );
 
 	FillPreservingFlags ( value, ~LIGHT_MASK ) ;
+}
+
+//----------------------------------------------------------------//
+float MOAIMapGrid::GetTileLight ( int x, int y ) {
+
+	MOAICellCoord coord ( x, y );
+	if ( ! this->IsValidCoord ( coord ) ) return 0;
+
+	u32 shadow = GetTile ( x, y ) & LIGHT_MASK;
+
+	// take a shadow value between 0 and BLACK_INDEX 
+	// convert it to a bright ness value between 0 and 1
+
+	if ( shadow > BLACK_INDEX ) shadow = BLACK_INDEX;
+
+	return 1.0f - ( float ( shadow ) / float ( BLACK_INDEX ) );
 }
 
 //----------------------------------------------------------------//
@@ -357,6 +354,7 @@ void MOAIMapGrid::RegisterLuaClass ( MOAILuaState& state ) {
 	state.SetField ( -1, "TILE_OBSTRUCT",			( u32 )TILE_OBSTRUCT );
 	state.SetField ( -1, "TILE_OPAQUE",				( u32 )TILE_OPAQUE );
 	state.SetField ( -1, "TILE_OBSTRUCT_OPAQUE",	( u32 )TILE_OBSTRUCT_OPAQUE );
+	state.SetField ( -1, "BLACK_INDEX",				( u8 )BLACK_INDEX);
 
 	MOAIGrid::RegisterLuaClass ( state );
 }
@@ -368,11 +366,29 @@ void MOAIMapGrid::RegisterLuaFuncs ( MOAILuaState& state ) {
 
 	luaL_Reg regTable [] = {
 
-		{ "fieldOfView",		_fieldOfView },
+		{ "addLightSource",		_addLightSource },
 		{ "fillLight",			_fillLight }, 
 		{ NULL, NULL }
 	};
 
 	luaL_register ( state, 0, regTable );
+}
+
+//----------------------------------------------------------------//
+void MOAIMapGrid::SetTileLight ( int x, int y, float brightness ) {
+
+	u32 value = GetTile ( x, y ) & ~LIGHT_MASK;
+
+	float shadow = 1 - brightness;
+
+	if ( shadow > 1 ) shadow = 1;
+	if ( shadow < 0 ) shadow = 0;
+
+	// take a brightness value between 0 and 1 
+	// convert it to a shadow value between 0 and BLACK_INDEX
+
+	value = value +  u8 ( BLACK_INDEX * shadow ); 
+
+	SetTile ( x, y, value );
 }
 
