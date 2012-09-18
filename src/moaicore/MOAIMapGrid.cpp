@@ -156,8 +156,6 @@ void MOAIMapGrid::FieldOfView ( int xTile, int yTile, int radius, MOAIFieldOfVie
 	int yOct;
 
 	// assume the answer array has been initialized
-	// calculate the width
-	int answerWidth = radius * 2 + 1;
 
 	for ( char oct = startOct; oct <= endOct; ++oct ) {
 
