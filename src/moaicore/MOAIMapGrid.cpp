@@ -48,13 +48,16 @@ void MOAIFieldOfView::SetTile ( int x, int y, bool value ) {
 //================================================================//
 
 //----------------------------------------------------------------//
-/**	@name	fieldOfView
-	@text	Calculate the field of view from a grid position
+/**	@name	addLightSource
+	@text	Given a map position, light radius, and attenuation 
+			curve, add a light source and the light cast by the 
+			light source to the map. 
 
 	@in		MOAIMapGrid self
 	@in		number xTile
 	@in		number yTile
-	@in		number mask
+	@in		number radius
+	@in		MOAIAnimCurve curve
 	@out	nil
 */
 int MOAIMapGrid::_addLightSource ( lua_State* L ) {
@@ -71,7 +74,7 @@ int MOAIMapGrid::_addLightSource ( lua_State* L ) {
 }
 
 //----------------------------------------------------------------//
-/**	@name	fill
+/**	@name	fillLight
 	@text	Set all tiles 8 bit value, preserving flags
 
 	@in		MOAIGrid self
